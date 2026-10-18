@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MediRemind">
+
+        <activity android:name=".MedicineListActivity"/>
+        <activity android:name=".AddMedicineActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,5 +34,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
+
 
 </manifest>
