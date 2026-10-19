@@ -1,4 +1,3 @@
-
 package com.example.mediremind;
 
 import android.app.DatePickerDialog;
@@ -14,129 +13,120 @@ import java.util.Locale;
 
 public class AddMedicineActivity extends AppCompatActivity {
 
-    EditText etName, etQuantity, etPrice, etExpiry;
+    private EditText etName, etQuantity, etPrice, etExpiry;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicine);
 
+        databaseHelper = new DatabaseHelper(this);
+
         etName = findViewById(R.id.etName);
         etQuantity = findViewById(R.id.etQuantity);
         etPrice = findViewById(R.id.etPrice);
         etExpiry = findViewById(R.id.etExpiry);
-
         Button btnSave = findViewById(R.id.btnSave);
 
-        // Open date picker when expiry date is selected
-        etExpiry.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
+        etExpiry.setFocusable(false);
+        etExpiry.setClickable(true);
+        etExpiry.setOnClickListener(v -> showDatePicker());
 
-            DatePickerDialog picker = new DatePickerDialog(
-                    AddMedicineActivity.this,
-                    (view, year, month, day) -> {
-                        String date = String.format(
-                                Locale.US,
-                                "%04d-%02d-%02d",
-                                year, month + 1, day
-                        );
-                        etExpiry.setText(date);
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            );
+        btnSave.setOnClickListener(v -> saveMedicine());
+    }
 
-            picker.show();
-        });
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
 
-        // Save medicine
-        btnSave.setOnClickListener(v -> {
+        DatePickerDialog picker = new DatePickerDialog(
+                this,
+                (view, year, month, day) -> {
+                    String date = String.format(
+                            Locale.getDefault(),
+                            "%04d-%02d-%02d",
+                            year, month + 1, day
+                    );
+                    etExpiry.setText(date);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
 
-            String name = etName.getText().toString().trim();
-            String quantityText =
-                    etQuantity.getText().toString().trim();
-            String priceText =
-                    etPrice.getText().toString().trim();
-            String expiry =
-                    etExpiry.getText().toString().trim();
+        picker.show();
+    }
 
-            // Validate medicine name
-            if (name.isEmpty()) {
-                etName.setError("Enter medicine name");
-                etName.requestFocus();
+    private void saveMedicine() {
+        String name = etName.getText().toString().trim();
+        String quantityText = etQuantity.getText().toString().trim();
+        String priceText = etPrice.getText().toString().trim();
+        String expiry = etExpiry.getText().toString().trim();
+
+        if (name.isEmpty()) {
+            etName.setError("Enter medicine name");
+            etName.requestFocus();
+            return;
+        }
+
+        if (quantityText.isEmpty()) {
+            etQuantity.setError("Enter quantity");
+            etQuantity.requestFocus();
+            return;
+        }
+
+        if (priceText.isEmpty()) {
+            etPrice.setError("Enter price");
+            etPrice.requestFocus();
+            return;
+        }
+
+        try {
+            int quantity = Integer.parseInt(quantityText);
+            double price = Double.parseDouble(priceText);
+
+            if (quantity < 0) {
+                etQuantity.setError("Quantity cannot be negative");
                 return;
             }
 
-            // Validate quantity
-            if (quantityText.isEmpty()) {
-                etQuantity.setError("Enter quantity");
-                etQuantity.requestFocus();
+            if (!Double.isFinite(price) || price < 0) {
+                etPrice.setError("Enter a valid price");
                 return;
             }
 
-            // Validate price
-            if (priceText.isEmpty()) {
-                etPrice.setError("Enter unit price");
-                etPrice.requestFocus();
-                return;
-            }
+            Medicine medicine =
+                    new Medicine(name, quantity, price, expiry);
 
-            // Validate expiry date
-            if (expiry.isEmpty()) {
-                etExpiry.setError("Select expiry date");
+            long result = databaseHelper.insertMedicine(medicine);
+
+            if (result != -1) {
                 Toast.makeText(
                         this,
-                        "Please select an expiry date",
+                        "Medicine saved successfully",
                         Toast.LENGTH_SHORT
                 ).show();
-                return;
-            }
-
-            int quantity;
-            double price;
-
-            try {
-                quantity = Integer.parseInt(quantityText);
-                price = Double.parseDouble(priceText);
-            } catch (NumberFormatException e) {
+                finish();
+            } else {
                 Toast.makeText(
                         this,
-                        "Enter valid quantity and price",
+                        "Unable to save medicine",
                         Toast.LENGTH_SHORT
                 ).show();
-                return;
             }
 
-            if (quantity <= 0) {
-                etQuantity.setError("Quantity must be greater than zero");
-                etQuantity.requestFocus();
-                return;
-            }
-
-            if (price < 0) {
-                etPrice.setError("Price cannot be negative");
-                etPrice.requestFocus();
-                return;
-            }
-
-            // Create and store medicine
-            Medicine medicine = new Medicine(
-                    name,
-                    quantity,
-                    price,
-                    expiry
-            );
-
-            MedicineStore.medicineList.add(medicine);
-
+        } catch (NumberFormatException e) {
             Toast.makeText(
                     this,
-                    "Medicine added successfully!",
+                    "Enter a valid quantity and price",
                     Toast.LENGTH_SHORT
             ).show();
+        }
+    }
 
-            finish();
-        });
+    @Override
+    protected void onDestroy() {
+        databaseHelper.close();
+        super.onDestroy();
     }
 }
