@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#2563EB</color>
+    <color name="primary_dark">#1D4ED8</color>
+    <color name="accent">#0D9488</color>
+
+    <color name="screen_background">#F4F7FB</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="input_background">#F8FAFC</color>
+
+    <color name="text_primary">#172033</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="border_color">#E2E8F0</color>
+
+    <color name="success">#15803D</color>
+    <color name="warning">#B45309</color>
+    <color name="danger">#DC2626</color>
 </resources>
