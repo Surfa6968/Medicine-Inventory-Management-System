@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -7,84 +8,189 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MediRemind"
-            android:textColor="@color/primary"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Medicine Inventory"
-            android:textColor="@color/text_primary"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Manage your medicines, stock and expiry dates."
-            android:textColor="@color/text_secondary"
-            android:textSize="15sp"/>
-
+        <!-- Small app header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/bg_card"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_medicine"
+                android:contentDescription="Medicine icon"
+                android:padding="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inventory Management"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:layout_marginStart="8dp"
+                android:text="MediRemind"
+                android:textColor="@color/primary"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Welcome section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_button"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WELCOME BACK!"
+                android:textColor="#DDF5E8"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Add new medicines or review your existing inventory."
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"/>
-
-            <Button
-                android:id="@+id/btnAddMedicine"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_button"
-                android:text=" +   Add Medicine"
-                android:textAllCaps="false"
+                android:text="Medicine Inventory"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnViewMedicines"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_card"
-                android:text="View Medicine Inventory"
-                android:textAllCaps="false"
-                android:textColor="@color/primary"
-                android:textSize="16sp"/>
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Manage your medicines, stock and expiry dates."
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
         </LinearLayout>
 
+        <!-- Inventory overview -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Inventory Overview"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="105dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_inventory"
+                    android:contentDescription="Inventory icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Total Medicines"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtTotalMedicines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="105dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_warning"
+                    android:contentDescription="Low stock warning icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Low Stock"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtLowStock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#C17B18"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Quick actions -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Quick Actions"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnAddMedicine"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button"
+            android:text="+   Add Medicine"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnViewMedicines"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:text="View Medicine Inventory"
+            android:textAllCaps="false"
+            android:textColor="@color/primary"
+            android:textSize="16sp" />
+
+        <!-- Information card -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,17 +198,19 @@
             android:text="Inventory at a glance"
             android:textColor="@color/text_primary"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_card"
             android:padding="16dp"
-            android:text="Track medicine quantities, unit prices and expiry dates from your inventory."
+            android:drawablePadding="10dp"
+            android:text="Keep track of medicine quantities, unit prices and expiry dates in one place."
             android:textColor="@color/text_secondary"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp" />
 
     </LinearLayout>
 </ScrollView>
