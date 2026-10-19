@@ -2,16 +2,29 @@ package com.example.mediremind;
 
 public class Medicine {
 
+    private int id;
     private String name;
     private int quantity;
     private double price;
     private String expiryDate;
 
+    // Used when creating a new medicine before saving it.
     public Medicine(String name, int quantity, double price, String expiryDate) {
+        this(0, name, quantity, price, expiryDate);
+    }
+
+    // Used when loading a medicine from SQLite.
+    public Medicine(int id, String name, int quantity,
+                    double price, String expiryDate) {
+        this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.expiryDate = expiryDate;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -28,6 +41,10 @@ public class Medicine {
 
     public String getExpiryDate() {
         return expiryDate;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
