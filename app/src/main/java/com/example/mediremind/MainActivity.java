@@ -42,35 +42,56 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        // Buttons
         btnAdd = findViewById(R.id.btnAddMedicine);
         btnView = findViewById(R.id.btnViewMedicines);
 
-        // Dashboard statistics
         txtTotalMedicines =
                 findViewById(R.id.txtTotalMedicines);
 
         txtLowStock =
                 findViewById(R.id.txtLowStock);
 
-        // Open Add Medicine page
-        btnAdd.setOnClickListener(v -> {
-            startActivity(
-                    new Intent(MainActivity.this,
-                            AddMedicineActivity.class)
-            );
-        });
+        btnAdd.setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        AddMedicineActivity.class
+                ))
+        );
 
-        // Open Medicine Inventory page
-        btnView.setOnClickListener(v -> {
-            startActivity(
-                    new Intent(MainActivity.this,
-                            MedicineListActivity.class)
-            );
-        });
+        btnView.setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        MedicineListActivity.class
+                ))
+        );
 
-        // Temporary values until connected to your database
-        txtTotalMedicines.setText("0");
-        txtLowStock.setText("0");
+        refreshDashboard();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (txtTotalMedicines != null &&
+                txtLowStock != null) {
+            refreshDashboard();
+        }
+    }
+
+    private void refreshDashboard() {
+
+        int total = MedicineStore.medicineList.size();
+        int lowStock = 0;
+
+        for (Medicine medicine :
+                MedicineStore.medicineList) {
+
+            if (medicine.getQuantity() <= 10) {
+                lowStock++;
+            }
+        }
+
+        txtTotalMedicines.setText(String.valueOf(total));
+        txtLowStock.setText(String.valueOf(lowStock));
     }
 }
